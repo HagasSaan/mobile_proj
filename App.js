@@ -1,44 +1,38 @@
-import React, { useState } from "react";
-import { StyleSheet, Dimensions, View } from "react-native";
-import { GameLoop } from "react-native-game-engine";
-
-const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
-const RADIUS = 25;
+import * as React from "react";
+import { Text, View, StyleSheet } from "react-native";
+import Constants from "expo-constants";
+import { StatusBar } from "expo-status-bar";
+import { GameEngine } from "react-native-game-engine";
+import entities from "./entities";
+import Physics from "./systems/Physics";
+import Matter from "matter-js";
 
 export default function App() {
-  const [coords, setCoords] = useState({
-    x: WIDTH / 2 - RADIUS,
-    y: HEIGHT / 2 - RADIUS,
-  });
-
-  updateHandler = ({ touches, screen, layout, time }) => {
-    // console.log(touches, screen, layout, time);
-    let move = touches.find((x) => x.type === "move");
-    if (move) {
-      setCoords({
-        x: coords.x + move.delta.pageX,
-        y: coords.y + move.delta.pageY,
-      });
-    }
-  };
+  const engine = Matter.Engine.create({ enableSleeping: false });
+  const world = engine.world;
 
   return (
-    <GameLoop style={styles.container} onUpdate={updateHandler}>
-      <View style={[styles.player, { left: coords.x, top: coords.y }]} />
-    </GameLoop>
+    <View style={styles.container}>
+      <GameEngine
+        systems={[Physics]}
+        entities={{
+          engine: engine,
+          world: world,
+          ...entities(world),
+        }}
+        style={styles.gameContainer}
+      >
+        <StatusBar hidden={true} />
+      </GameEngine>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  gameContainer: {
     flex: 1,
-    backgroundColor: "#FFF",
-  },
-  player: {
-    position: "absolute",
-    backgroundColor: "pink",
-    width: RADIUS * 2,
-    height: RADIUS * 2,
-    borderRadius: RADIUS * 2,
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: "#ecf0f1",
+    padding: 0,
   },
 });
