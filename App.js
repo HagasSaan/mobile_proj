@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Text, View, StyleSheet } from "react-native";
-import Constants from "expo-constants";
+import { View, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { GameEngine } from "react-native-game-engine";
 import entities from "./entities";
@@ -29,10 +28,13 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "green",
+  },
   gameContainer: {
     flex: 1,
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: "#ecf0f1",
+    // paddingTop: Constants.statusBarHeight,
+    // backgroundColor: "blue",
     padding: 0,
   },
 });
