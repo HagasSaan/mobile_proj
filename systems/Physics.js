@@ -6,6 +6,7 @@ var velocity = null;
 export default Physics = (entities, { touches, time }) => {
   let engine = entities.engine;
   let world = engine.world;
+  const gameEngineRef = entities.gameEngineRef;  // Access gameEngineRef from entities
 
   world.gravity.y = 0;
   world.gravity.x = 0;
@@ -25,10 +26,12 @@ export default Physics = (entities, { touches, time }) => {
       // console.log("removing due collision with hole: ", objB.label);
       objB.killed = true;
       Matter.World.remove(world, objB);
+      gameEngineRef.current.dispatch({ type: "new_point" });
     } else if (objB.label === "Hole") {
       // console.log("removing due collision with hole: ", objA.label);
       objA.killed = true;
       Matter.World.remove(world, objA);
+      gameEngineRef.current.dispatch({ type: "new_point" });
     }
   });
 

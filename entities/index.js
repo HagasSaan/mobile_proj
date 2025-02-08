@@ -7,9 +7,11 @@ import Hole from "../components/Hole";
 
 const screenHeight = Dimensions.get("window").height;
 const screenWidth = Dimensions.get("window").width;
-const borderSize = 30;
-const ballRadius = 20;
+const borderSize = 10;
+const ballRadius = 15;
 const ballDistance = ballRadius * 3;
+const marginWidth = 50;
+const marginHeight = 100;
 
 export default (world) => {
   function getBalls(linesCount) {
@@ -40,13 +42,13 @@ export default (world) => {
     let holesCoordinates = [
       {
         label: "leftTopHole",
-        x: ballRadius,
-        y: ballRadius + Constants.BAR_HEIGHT / 2,
+        x: ballRadius + marginWidth,
+        y: ballRadius  + marginHeight + 40, //+ Constants.BAR_HEIGHT / 2
       },
       {
         label: "rightTopHole",
-        x: screenWidth - ballRadius,
-        y: ballRadius + Constants.BAR_HEIGHT / 2,
+        x: screenWidth - ballRadius - marginWidth,
+        y: ballRadius  + marginHeight + 40, //+ Constants.BAR_HEIGHT / 2
       },
       // { label: "middleTopHole", x: screenWidth / 2, y: ballRadius },
       // {
@@ -56,23 +58,23 @@ export default (world) => {
       // },
       {
         label: "leftMiddleHole",
-        x: ballRadius,
-        y: screenHeight / 2 + Constants.BAR_HEIGHT / 2,
+        x: ballRadius + marginWidth,
+        y: screenHeight / 2,// + Constants.BAR_HEIGHT / 2
       },
       {
         label: "rightMiddleHole",
-        x: screenWidth - ballRadius,
-        y: screenHeight / 2 + Constants.BAR_HEIGHT / 2,
+        x: screenWidth - ballRadius - marginWidth,
+        y: screenHeight / 2,  //+ Constants.BAR_HEIGHT / 2
       },
       {
         label: "leftBottomHole",
-        x: ballRadius,
-        y: screenHeight - ballRadius + Constants.BAR_HEIGHT,
+        x: ballRadius + marginWidth,
+        y: screenHeight - ballRadius - marginHeight - 10, //+ Constants.BAR_HEIGHT
       },
       {
         label: "rightBottomHole",
-        x: screenWidth - ballRadius,
-        y: screenHeight - ballRadius + Constants.BAR_HEIGHT,
+        x: screenWidth - ballRadius - marginWidth,
+        y: screenHeight - ballRadius  - marginHeight - 10, //+ Constants.BAR_HEIGHT
       },
     ];
     var result = {};
@@ -103,18 +105,18 @@ export default (world) => {
     bottomBoundary: Boundary(
       world,
       "brown",
-      { x: Constants.WINDOW_WIDTH / 2, y: Constants.WINDOW_HEIGHT },
-      { height: borderSize, width: Constants.WINDOW_WIDTH },
+      { x: Constants.WINDOW_WIDTH / 2, y: Constants.WINDOW_HEIGHT - marginHeight - 35},
+      { height: borderSize, width: Constants.WINDOW_WIDTH - marginWidth * 2 },
       Constants.BOUNDARY_LABEL,
     ),
 
     topBoundary: Boundary(
       world,
       "brown",
-      { x: Constants.WINDOW_WIDTH / 2, y: 0 },
+      { x: Constants.WINDOW_WIDTH / 2, y: marginHeight + 35},
       {
-        height: borderSize + Constants.BAR_HEIGHT,
-        width: Constants.WINDOW_WIDTH,
+        height: borderSize, // + Constants.BAR_HEIGHT
+        width: Constants.WINDOW_WIDTH - marginWidth * 2,
       },
       Constants.BOUNDARY_LABEL,
     ),
@@ -122,16 +124,16 @@ export default (world) => {
     leftBoundary: Boundary(
       world,
       "brown",
-      { x: 0, y: Constants.WINDOW_HEIGHT / 2 },
-      { height: Constants.WINDOW_HEIGHT, width: borderSize },
+      { x: marginWidth, y: Constants.WINDOW_HEIGHT / 2 },
+      { height: Constants.WINDOW_HEIGHT - marginHeight * 2 - 70 , width: borderSize },
       Constants.BOUNDARY_LABEL,
     ),
 
     rightBoundary: Boundary(
       world,
       "brown",
-      { x: Constants.WINDOW_WIDTH, y: Constants.WINDOW_HEIGHT / 2 },
-      { height: Constants.WINDOW_HEIGHT, width: borderSize },
+      { x: Constants.WINDOW_WIDTH - marginWidth, y: Constants.WINDOW_HEIGHT / 2 },
+      { height: Constants.WINDOW_HEIGHT - marginHeight * 2 - 70, width: borderSize },
       Constants.BOUNDARY_LABEL,
     ),
   };
