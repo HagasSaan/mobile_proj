@@ -21,25 +21,33 @@ const holeVerticalOffsetTop = 52;
 const holeVerticalOffsetBottom = 64;
 
 export default (world) => {
+  const colors = [
+    "#FF5733", "#33FF57", "#3357FF", "#F1C40F",
+    "#8E44AD", "#E74C3C", "#2ECC71", "#1ABC9C",
+    "#D35400", "#C0392B", "#3498DB", "#9B59B6"
+  ];
+
   function getBalls(linesCount) {
     var result = {};
 
     let centerX = screenWidth / 2 + tableOffsetX / 1.5;
     let centerY = screenHeight / 2 - 92;
 
+    var ballIndex = 0;
     for (let rowIdx = 1; rowIdx < linesCount + 1; rowIdx++) {
       for (var colIdx = 0; colIdx < rowIdx; colIdx++) {
         result[`ball_${rowIdx}_${colIdx}`] = Ball(
           world,
-          "gray",
+          colors[ballIndex],
           {
             x: centerX - ballDistance / 2 + (rowIdx / 2 - colIdx) * ballDistance,
             y: centerY - ballDistance / 2 - ballDistance * rowIdx,
           },
           ballRadius,
           `Ball_${rowIdx}_${colIdx}`,
-          `${(rowIdx - 1) * linesCount + colIdx + 1}`,
+          `${ballIndex + 1}`,
         );
+        ballIndex += 1;
       }
     }
     return result;
