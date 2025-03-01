@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import Matter from "matter-js";
 import React, { useState } from "react";
 
@@ -19,11 +19,15 @@ export const BallRenderer = (props) => {
         backgroundColor: props.color,
         position: "absolute",
       }}
-    ></View>
+    >
+      <Text style={{
+        textAlign: 'center'
+      }}>{props.renderLabel}</Text>
+    </View>
   );
 };
 
-export default (world, color, pos, radius, label) => {
+export default (world, color, pos, radius, label, renderLabel) => {
   const ball = Matter.Bodies.circle(pos.x, pos.y, radius, {
     label: label,
     frictionAir: 0.01,
@@ -37,6 +41,7 @@ export default (world, color, pos, radius, label) => {
     color: color,
     pos: pos,
     radius: radius,
+    renderLabel: renderLabel,
     renderer: <BallRenderer />,
   };
 };

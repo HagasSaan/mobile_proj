@@ -6,15 +6,13 @@ var velocity = null;
 export default Physics = (entities, { touches, time }) => {
   let engine = entities.engine;
   let world = engine.world;
-  const gameEngineRef = entities.gameEngineRef;  // Access gameEngineRef from entities
+  const gameEngineRef = entities.gameEngineRef; // Access gameEngineRef from entities
 
   world.gravity.y = 0;
   world.gravity.x = 0;
-
-  Matter.Events.on(engine, "collisionStart", (event) => {
-    var pairs = event.pairs;
-    var objA = pairs[0].bodyA;
-    var objB = pairs[0].bodyB;
+  function handlePairCollision(pair) {
+    var objA = pair.bodyA;
+    var objB = pair.bodyB;
     if (
       (objA.label === "Hole" || objB.label === "Hole") &&
       (objB.label === "Ball" || objB.label === "Ball")
@@ -33,6 +31,10 @@ export default Physics = (entities, { touches, time }) => {
       Matter.World.remove(world, objA);
       gameEngineRef.current.dispatch({ type: "new_point" });
     }
+  }
+
+  Matter.Events.on(engine, "collisionStart", (event) => {
+    event.pairs.forEach(handlePairCollision);
   });
 
   for (const [key, value] of Object.entries(entities)) {

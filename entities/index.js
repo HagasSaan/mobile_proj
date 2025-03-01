@@ -38,6 +38,7 @@ export default (world) => {
           },
           ballRadius,
           `Ball_${rowIdx}_${colIdx}`,
+          `${(rowIdx - 1) * linesCount + colIdx + 1}`,
         );
       }
     }
@@ -78,6 +79,7 @@ export default (world) => {
       { x: screenWidth / 2 + tableOffsetX / 1.5, y: screenHeight / 2 + 200 },
       ballRadius,
       "Ball",
+      "",
       false,
     ),
     ...getBalls(4),
@@ -116,4 +118,3 @@ export default (world) => {
     ),
   };
 };
-
