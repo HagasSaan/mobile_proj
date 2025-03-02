@@ -16,7 +16,7 @@ export default (world, color, pos, radius, label) => {
     body: hole,
     color: color,
     pos: pos,
-    radius: radius * 1.5,
+    radius: radius,
     renderer: <BallRenderer />,
   };
 };

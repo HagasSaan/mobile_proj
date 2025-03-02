@@ -5,20 +5,20 @@ import Matter from "matter-js";
 import Constants from "../Constants";
 import Hole from "../components/Hole";
 
-const screenHeight = Dimensions.get("window").height;
-const screenWidth = Dimensions.get("window").width;
+const screenHeight = Constants.SCREEN_HEIGHT;
+const screenWidth = Constants.SCREEN_WIDTH;
 const borderSize = 10;
 const ballRadius = 15;
 const ballDistance = ballRadius * 3;
 const marginWidth = 60;
 const marginHeight = 38;
-const tableOffsetY = 70;
 const tableOffsetX = 22;
 const borderThickness = borderSize + 24;
-const rightHoleOffsetX = 60;
-const leftHoleOffsetX = -35;
-const holeVerticalOffsetTop = 52;
-const holeVerticalOffsetBottom = 64;
+const rightHoleOffsetX = 43;
+const leftHoleOffsetX = -29;
+const holeVerticalOffsetTop = 43;
+const holeVerticalOffsetMiddle = 35;
+const holeVerticalOffsetBottom = 111;
 
 export default (world) => {
   const colors = [
@@ -55,13 +55,13 @@ export default (world) => {
 
   function getHoles() {
     let holeOffsetY = 15;
-    let holeRadius = ballRadius * 1.35;
+    let holeRadius = ballRadius * 1.45;
 
     let holesCoordinates = [
       { label: "leftTopHole", x: marginWidth + leftHoleOffsetX, y: marginHeight - holeOffsetY + holeVerticalOffsetTop },
       { label: "rightTopHole", x: screenWidth - marginWidth + rightHoleOffsetX, y: marginHeight - holeOffsetY + holeVerticalOffsetTop },
-      { label: "leftMiddleHole", x: marginWidth + leftHoleOffsetX, y: screenHeight / 2 },
-      { label: "rightMiddleHole", x: screenWidth - marginWidth + rightHoleOffsetX, y: screenHeight / 2 },
+      { label: "leftMiddleHole", x: marginWidth + leftHoleOffsetX, y: screenHeight / 2 - holeVerticalOffsetMiddle },
+      { label: "rightMiddleHole", x: screenWidth - marginWidth + rightHoleOffsetX, y: screenHeight / 2 - holeVerticalOffsetMiddle },
       { label: "leftBottomHole", x: marginWidth + leftHoleOffsetX, y: screenHeight - marginHeight + holeOffsetY - holeVerticalOffsetBottom },
       { label: "rightBottomHole", x: screenWidth - marginWidth + rightHoleOffsetX, y: screenHeight - marginHeight + holeOffsetY - holeVerticalOffsetBottom },
     ];
@@ -96,16 +96,16 @@ export default (world) => {
     bottomBoundary: Boundary(
       world,
       Constants.BOUNDARY_COLOR,
-      { x: screenWidth / 2 + tableOffsetX, y: screenHeight - marginHeight / 2 - tableOffsetY + 28 },
-      { height: borderThickness + 12, width: screenWidth - marginWidth * 1.55 },
+      { x: screenWidth / 2 - 100, y: screenHeight - 110},
+      { height: borderThickness + 12, width: screenWidth + 200 },
       Constants.BOUNDARY_LABEL
     ),
 
     topBoundary: Boundary(
       world,
       Constants.BOUNDARY_COLOR,
-      { x: screenWidth / 2 + tableOffsetX, y: marginHeight / 2 + tableOffsetY - 2 },
-      { height: borderThickness + 12, width: screenWidth - marginWidth * 1.55 },
+      { x: screenWidth / 2 - 100, y: 40 },
+      { height: borderThickness + 12, width: screenWidth + 200 },
       Constants.BOUNDARY_LABEL
     ),
 
