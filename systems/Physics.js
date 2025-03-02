@@ -3,7 +3,7 @@ import { Alert } from "react-native";
 var startPosition = null;
 var velocity = null;
 
-export default Physics = (entities, { touches, time }) => {
+export default function Physics(entities, { touches, time }) {
   let engine = entities.engine;
   let world = engine.world;
   const gameEngineRef = entities.gameEngineRef; // Access gameEngineRef from entities

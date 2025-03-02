@@ -104,7 +104,7 @@ export default (world) => {
     topBoundary: Boundary(
       world,
       Constants.BOUNDARY_COLOR,
-      { x: screenWidth / 2 - 100, y: 40 },
+      { x: screenWidth / 2 - 100, y: 42 },
       { height: borderThickness + 12, width: screenWidth + 200 },
       Constants.BOUNDARY_LABEL
     ),
