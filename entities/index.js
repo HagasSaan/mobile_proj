@@ -70,7 +70,7 @@ export default (world) => {
     for (const coord of holesCoordinates) {
       result[coord.label] = Hole(
         world,
-        "transparent",
+        Constants.HOLES_COLOR,
         { x: coord.x, y: coord.y },
         holeRadius,
         "Hole",
@@ -95,7 +95,7 @@ export default (world) => {
 
     bottomBoundary: Boundary(
       world,
-      "transparent",
+      Constants.BOUNDARY_COLOR,
       { x: screenWidth / 2 + tableOffsetX, y: screenHeight - marginHeight / 2 - tableOffsetY + 28 },
       { height: borderThickness + 12, width: screenWidth - marginWidth * 1.55 },
       Constants.BOUNDARY_LABEL
@@ -103,7 +103,7 @@ export default (world) => {
 
     topBoundary: Boundary(
       world,
-      "transparent",
+      Constants.BOUNDARY_COLOR,
       { x: screenWidth / 2 + tableOffsetX, y: marginHeight / 2 + tableOffsetY - 2 },
       { height: borderThickness + 12, width: screenWidth - marginWidth * 1.55 },
       Constants.BOUNDARY_LABEL
@@ -111,7 +111,7 @@ export default (world) => {
 
     leftBoundary: Boundary(
       world,
-      "transparent",
+      Constants.BOUNDARY_COLOR,
       { x: marginWidth / 2 - 18, y: screenHeight / 2 },
       { height: screenHeight - marginHeight * 1.02, width: borderSize + 26 },
       Constants.BOUNDARY_LABEL
@@ -119,7 +119,7 @@ export default (world) => {
 
     rightBoundary: Boundary(
       world,
-      "transparent",
+      Constants.BOUNDARY_COLOR,
       { x: screenWidth - marginWidth / 2 + 32, y: screenHeight / 2 },
       { height: screenHeight - marginHeight * 1.02, width: borderSize + 26 },
       Constants.BOUNDARY_LABEL
