@@ -14,6 +14,19 @@ export default function GameScreen() {
   const gameEngineRef = React.useRef(null);
 
   const [currentPoints, setCurrentPoints] = useState(0);
+  const [coordsStart, setCoordsStart] = useState({x: 200, y: 200});
+  const [coordsEnd, setCoordsEnd] = useState({x: 500, y: 500});
+
+  function handleGameEngineEvents(e) {
+    switch (e.type) {
+      case "new_point":
+        setCurrentPoints(currentPoints + 1);
+        break;
+      default:
+        console.log('unhandled game engine event', e.type);
+        break;
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -31,20 +44,13 @@ export default function GameScreen() {
             gameEngineRef: gameEngineRef,
             ...entities(world),
           }}
-          onEvent={(e) => {
-            switch (e.type) {
-              case "new_point":
-                setCurrentPoints(currentPoints + 1);
-                break;
-            }
-          }}
+          onEvent={handleGameEngineEvents}
           style={styles.gameContainer}
         >
           <StatusBar hidden={true} />
         </GameEngine>
       </ImageBackground>
       <Text style={styles.scoreText}>Score: {currentPoints}</Text>
-
     </View>
   );
 }

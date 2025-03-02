@@ -4,6 +4,7 @@ import Boundary from "../components/Boundary";
 import Matter from "matter-js";
 import Constants from "../Constants";
 import Hole from "../components/Hole";
+import Pointer from "../components/Pointer";
 
 const screenHeight = Constants.SCREEN_HEIGHT;
 const screenWidth = Constants.SCREEN_WIDTH;
@@ -14,11 +15,11 @@ const marginWidth = 60;
 const marginHeight = 38;
 const tableOffsetX = 22;
 const borderThickness = borderSize + 24;
-const rightHoleOffsetX = 43;
+const rightHoleOffsetX = 23;
 const leftHoleOffsetX = -29;
-const holeVerticalOffsetTop = 43;
-const holeVerticalOffsetMiddle = 35;
-const holeVerticalOffsetBottom = 111;
+const holeVerticalOffsetTop = 63;
+const holeVerticalOffsetMiddle = 10;
+const holeVerticalOffsetBottom = 90;
 
 export default (world) => {
   const colors = [
@@ -30,7 +31,7 @@ export default (world) => {
   function getBalls(linesCount) {
     var result = {};
 
-    let centerX = screenWidth / 2 + tableOffsetX / 1.5;
+    let centerX = screenWidth / 2;
     let centerY = screenHeight / 2 - 92;
 
     var ballIndex = 0;
@@ -83,20 +84,23 @@ export default (world) => {
   return {
     point: Ball(
       world,
-      "red",
-      { x: screenWidth / 2 + tableOffsetX / 1.5, y: screenHeight / 2 + 200 },
+      "white",
+      { x: screenWidth / 2, y: screenHeight / 2 + 200 },
       ballRadius,
       "Ball",
       "",
       false,
     ),
+
+    pointer: Pointer(),
+
     ...getBalls(4),
     ...getHoles(),
 
     bottomBoundary: Boundary(
       world,
       Constants.BOUNDARY_COLOR,
-      { x: screenWidth / 2 - 100, y: screenHeight - 110},
+      { x: screenWidth / 2 - 100, y: screenHeight - 90},
       { height: borderThickness + 12, width: screenWidth + 200 },
       Constants.BOUNDARY_LABEL
     ),
@@ -104,7 +108,7 @@ export default (world) => {
     topBoundary: Boundary(
       world,
       Constants.BOUNDARY_COLOR,
-      { x: screenWidth / 2 - 100, y: 42 },
+      { x: screenWidth / 2 - 100, y: 67 },
       { height: borderThickness + 12, width: screenWidth + 200 },
       Constants.BOUNDARY_LABEL
     ),
@@ -112,7 +116,7 @@ export default (world) => {
     leftBoundary: Boundary(
       world,
       Constants.BOUNDARY_COLOR,
-      { x: marginWidth / 2 - 18, y: screenHeight / 2 },
+      { x: marginWidth / 2 - 15, y: screenHeight / 2 },
       { height: screenHeight - marginHeight * 1.02, width: borderSize + 26 },
       Constants.BOUNDARY_LABEL
     ),
@@ -120,7 +124,7 @@ export default (world) => {
     rightBoundary: Boundary(
       world,
       Constants.BOUNDARY_COLOR,
-      { x: screenWidth - marginWidth / 2 + 32, y: screenHeight / 2 },
+      { x: screenWidth - marginWidth / 2 + 15, y: screenHeight / 2 },
       { height: screenHeight - marginHeight * 1.02, width: borderSize + 26 },
       Constants.BOUNDARY_LABEL
     ),

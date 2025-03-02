@@ -3,7 +3,7 @@ import { Alert } from "react-native";
 var startPosition = null;
 var velocity = null;
 
-export default function Physics(entities, { touches, time }) {
+export default function Physics(entities, { touches, time, dispatch }) {
   let engine = entities.engine;
   let world = engine.world;
   const gameEngineRef = entities.gameEngineRef; // Access gameEngineRef from entities
@@ -17,6 +17,7 @@ export default function Physics(entities, { touches, time }) {
       (objA.label === "Hole" || objB.label === "Hole") &&
       (objB.label === "Ball" || objB.label === "Ball")
     ) {
+      dispatch({type: "game_over"})
       console.log("Game over");
       return;
     }
@@ -52,6 +53,7 @@ export default function Physics(entities, { touches, time }) {
           x: t.event.pageX,
           y: t.event.pageY,
         };
+        entities.pointer.start = startPosition;
         console.log(t);
         break;
       case "end": {
@@ -64,6 +66,8 @@ export default function Physics(entities, { touches, time }) {
         }
         startPosition = null;
         velocity = null;
+        entities.pointer.start = null;
+        entities.pointer.end = null;
         break;
       }
       case "move": {
@@ -76,6 +80,8 @@ export default function Physics(entities, { touches, time }) {
           x: startPosition.x - currentPosition.x,
           y: startPosition.y - currentPosition.y,
         };
+
+        entities.pointer.end = currentPosition;
 
         // console.log(velocity);
         break;

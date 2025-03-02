@@ -7,20 +7,8 @@ import {
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import GameScreen from "./GameScreen";
+import HomeScreen from "./HomeScreen";
 
-function HomeScreen() {
-  const navigation = useNavigation();
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Game')}
-      >
-        <Text>Start Game</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
 
 const RootStack = createNativeStackNavigator({
   screens: {
