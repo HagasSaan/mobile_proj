@@ -14,8 +14,6 @@ export default function GameScreen() {
   const gameEngineRef = React.useRef(null);
 
   const [currentPoints, setCurrentPoints] = useState(0);
-  const [coordsStart, setCoordsStart] = useState({x: 200, y: 200});
-  const [coordsEnd, setCoordsEnd] = useState({x: 500, y: 500});
 
   function handleGameEngineEvents(e) {
     switch (e.type) {
