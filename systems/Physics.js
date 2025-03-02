@@ -6,31 +6,20 @@ var velocity = null;
 export default function Physics(entities, { touches, time, dispatch }) {
   let engine = entities.engine;
   let world = engine.world;
-  const gameEngineRef = entities.gameEngineRef; // Access gameEngineRef from entities
 
   world.gravity.y = 0;
   world.gravity.x = 0;
   function handlePairCollision(pair) {
     var objA = pair.bodyA;
     var objB = pair.bodyB;
-    if (
-      (objA.label === "Hole" || objB.label === "Hole") &&
-      (objB.label === "Ball" || objB.label === "Ball")
-    ) {
-      dispatch({type: "game_over"})
-      console.log("Game over");
-      return;
-    }
     if (objA.label === "Hole") {
       // console.log("removing due collision with hole: ", objB.label);
       objB.killed = true;
       Matter.World.remove(world, objB);
-      gameEngineRef.current.dispatch({ type: "new_point" });
     } else if (objB.label === "Hole") {
       // console.log("removing due collision with hole: ", objA.label);
       objA.killed = true;
       Matter.World.remove(world, objA);
-      gameEngineRef.current.dispatch({ type: "new_point" });
     }
   }
 
@@ -41,7 +30,13 @@ export default function Physics(entities, { touches, time, dispatch }) {
   for (const [key, value] of Object.entries(entities)) {
     // console.log(key, value);
     if (value.body && value.body.killed) {
-      console.log("dead", key, value);
+      console.log("dead", key);
+      if (key === 'point') {
+        dispatch({ type: "game_over" });
+      }
+      else {
+        dispatch({ type: "new_point" });
+      }
       delete entities[key];
     }
   }
@@ -54,10 +49,8 @@ export default function Physics(entities, { touches, time, dispatch }) {
           y: t.event.pageY,
         };
         entities.pointer.start = startPosition;
-        console.log(t);
         break;
       case "end": {
-        console.log(t, velocity);
         if (velocity) {
           Matter.Body.setVelocity(entities.point.body, {
             x: velocity.x / 10,
@@ -100,7 +93,7 @@ export default function Physics(entities, { touches, time, dispatch }) {
   });
 
   if (!startPosition) {
-    Matter.Engine.update(engine, time.delta);
+    Matter.Engine.update(engine, time.delta * 2);
   }
 
   return entities;

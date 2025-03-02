@@ -11,7 +11,6 @@ import Constants from "./Constants";
 export default function GameScreen() {
   const engine = Matter.Engine.create({ enableSleeping: false });
   const world = engine.world;
-  const gameEngineRef = React.useRef(null);
 
   const [currentPoints, setCurrentPoints] = useState(0);
 
@@ -19,6 +18,9 @@ export default function GameScreen() {
     switch (e.type) {
       case "new_point":
         setCurrentPoints(currentPoints + 1);
+        break;
+      case "game_over":
+        // TODO: game over
         break;
       default:
         console.log('unhandled game engine event', e.type);
@@ -34,12 +36,10 @@ export default function GameScreen() {
         resizeMode="cover"
       >
         <GameEngine
-          ref={gameEngineRef}
           systems={[Physics]}
           entities={{
             engine: engine,
             world: world,
-            gameEngineRef: gameEngineRef,
             ...entities(world),
           }}
           onEvent={handleGameEngineEvents}
