@@ -48,6 +48,7 @@ export default function Physics(entities, { touches, time, dispatch }) {
           x: t.event.pageX,
           y: t.event.pageY,
         };
+        entities.pointer.pointPosition = entities.point.body.position;
         entities.pointer.start = startPosition;
         break;
       case "end": {
@@ -61,6 +62,7 @@ export default function Physics(entities, { touches, time, dispatch }) {
         velocity = null;
         entities.pointer.start = null;
         entities.pointer.end = null;
+        entities.pointer.pointPosition = null;
         break;
       }
       case "move": {

@@ -4,6 +4,7 @@ import { Line, Svg } from "react-native-svg";
 function PointerRenderer(props) {
   const start = props.start;
   const end = props.end;
+  const pointPosition = props.pointPosition;
   if (!start || !end) {
     return null;
   }
@@ -11,12 +12,12 @@ function PointerRenderer(props) {
   return (
     <Svg>
       <Line
-        x1={start.x}
-        y1={start.y}
-        x2={end.x}
-        y2={end.y}
-        stroke="red"
-        strokeWidth="2"
+        x1={pointPosition.x}
+        y1={pointPosition.y}
+        x2={pointPosition.x - (start.x - end.x)}
+        y2={pointPosition.y - (start.y - end.y)}
+        stroke="brown"
+        strokeWidth="4"
       />
     </Svg>
   );
@@ -26,6 +27,7 @@ export default () => {
   return {
     start: null,
     end: null,
+    pointPosition: null,
     renderer: <PointerRenderer />,
   };
 };
