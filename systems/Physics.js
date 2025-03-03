@@ -33,6 +33,8 @@ export default function Physics(entities, { touches, time, dispatch }) {
       console.log("dead", key);
       if (key === 'point') {
         dispatch({ type: "game_over" });
+        Matter.Engine.update(engine, time.delta * 2);
+        
       }
       else {
         dispatch({ type: "new_point" });

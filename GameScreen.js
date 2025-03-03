@@ -1,26 +1,34 @@
 import * as React from "react";
-import { useState } from "react";
-import { View, StyleSheet, Text, ImageBackground, Dimensions } from "react-native";
+import { useState, useEffect } from "react";
+import { View, StyleSheet, Text, ImageBackground, Dimensions, TouchableOpacity } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { GameEngine } from "react-native-game-engine";
 import entities from "./entities";
 import Physics from "./systems/Physics";
 import Matter from "matter-js";
 import Constants from "./Constants";
+import { useNavigation } from '@react-navigation/native';
 
 export default function GameScreen() {
+  const navigation = useNavigation();
   const engine = Matter.Engine.create({ enableSleeping: false });
   const world = engine.world;
 
   const [currentPoints, setCurrentPoints] = useState(0);
+  const [running, setRunning] = useState(false);
 
   function handleGameEngineEvents(e) {
     switch (e.type) {
       case "new_point":
         setCurrentPoints(currentPoints + 1);
+        console.log(running);
+        if(currentPoints == 9) {
+          setRunning(true);
+        }
         break;
       case "game_over":
-        // TODO: game over
+        setRunning(true);
+        console.log("running :" + running);
         break;
       default:
         console.log('unhandled game engine event', e.type);
@@ -49,6 +57,21 @@ export default function GameScreen() {
         </GameEngine>
       </ImageBackground>
       <Text style={styles.scoreText}>Score: {currentPoints}</Text>
+      {running && (
+  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <Text style={{ fontWeight: 'bold', color: 'white', fontSize: 50, marginBottom: 20 }}>
+      GAME OVER
+    </Text>
+    <TouchableOpacity
+      style={{ backgroundColor: 'black', paddingHorizontal: 30, paddingVertical: 10 }}
+      onPress={() => navigation.navigate('Home')} 
+    >
+      <Text style={{ fontWeight: 'bold', color: 'white', fontSize: 30 }}>
+        EXIT
+      </Text>
+    </TouchableOpacity>
+  </View>
+)}
     </View>
   );
 }
@@ -76,6 +99,3 @@ const styles = StyleSheet.create({
     fontSize: 36
   }
 });
-
-
-
