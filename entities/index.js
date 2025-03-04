@@ -21,7 +21,7 @@ const holeVerticalOffsetTop = 63;
 const holeVerticalOffsetMiddle = 10;
 const holeVerticalOffsetBottom = 90;
 
-export default (world) => {
+export default (world, ballsCount) => {
   const colors = [
     "#FF5733", "#33FF57", "#3357FF", "#F1C40F",
     "#8E44AD", "#E74C3C", "#2ECC71", "#1ABC9C",
@@ -94,7 +94,7 @@ export default (world) => {
 
     pointer: Pointer(),
 
-    ...getBalls(4),
+    ...getBalls(ballsCount),
     ...getHoles(),
 
     bottomBoundary: Boundary(

@@ -20,7 +20,8 @@ export default function GameScreen() {
   const [running, setRunning] = useState(false);
 
   useEffect(() => {
-    if (currentPoints === 1) {
+    // Check if currentPoints is 3 to set running to true
+    if (currentPoints === 3) {
       setRunning(true);
     }
   }, [currentPoints]);

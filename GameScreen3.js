@@ -20,7 +20,7 @@ export default function GameScreen() {
   const [running, setRunning] = useState(false);
 
   useEffect(() => {
-    if (currentPoints === 1) {
+    if (currentPoints === 6) {
       setRunning(true);
     }
   }, [currentPoints]);
