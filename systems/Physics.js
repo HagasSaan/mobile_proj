@@ -1,5 +1,5 @@
 import Matter from "matter-js";
-import { Alert } from "react-native";
+
 var startPosition = null;
 var velocity = null;
 
@@ -9,15 +9,14 @@ export default function Physics(entities, { touches, time, dispatch }) {
 
   world.gravity.y = 0;
   world.gravity.x = 0;
+
   function handlePairCollision(pair) {
     var objA = pair.bodyA;
     var objB = pair.bodyB;
     if (objA.label === "Hole") {
-      // console.log("removing due collision with hole: ", objB.label);
       objB.killed = true;
       Matter.World.remove(world, objB);
     } else if (objB.label === "Hole") {
-      // console.log("removing due collision with hole: ", objA.label);
       objA.killed = true;
       Matter.World.remove(world, objA);
     }
@@ -28,19 +27,25 @@ export default function Physics(entities, { touches, time, dispatch }) {
   });
 
   for (const [key, value] of Object.entries(entities)) {
-    // console.log(key, value);
     if (value.body && value.body.killed) {
       console.log("dead", key);
-      if (key === 'point') {
+      if (key === "point") {
         dispatch({ type: "game_over" });
-        Matter.Engine.update(engine, time.delta * 2);
-        
-      }
-      else {
+      } else {
         dispatch({ type: "new_point" });
       }
       delete entities[key];
     }
+  }
+
+  if (!entities.pointer) {
+    console.warn("Warning: Pointer entity is missing!");
+    return entities;
+  }
+
+  if (!entities.point || !entities.point.body) {
+    console.warn("Warning: Cue ball entity (point) is missing!");
+    return entities;
   }
 
   touches.forEach((t) => {
@@ -68,7 +73,7 @@ export default function Physics(entities, { touches, time, dispatch }) {
         break;
       }
       case "move": {
-        currentPosition = {
+        const currentPosition = {
           x: t.event.pageX,
           y: t.event.pageY,
         };
@@ -79,20 +84,11 @@ export default function Physics(entities, { touches, time, dispatch }) {
         };
 
         entities.pointer.end = currentPosition;
-
-        // console.log(velocity);
         break;
       }
-      case "press": {
+      default:
+        console.log("Unknown touch event type:", t.type);
         break;
-      }
-      case "long-press": {
-        break;
-      }
-      default: {
-        console.log("unknown type:", t.type);
-        break;
-      }
     }
   });
 

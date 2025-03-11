@@ -23,6 +23,10 @@ export default function GameScreen() {
     if (currentPoints === 1) {
       setRunning(true);
     }
+
+    return () => {
+        Matter.Engine.clear(engine);
+    };
   }, [currentPoints]);
 
   function handleGameEngineEvents(e) {

@@ -1,5 +1,4 @@
 import Ball from "../components/Ball";
-import { Dimensions } from "react-native";
 import Boundary from "../components/Boundary";
 import Matter from "matter-js";
 import Constants from "../Constants";
@@ -10,10 +9,9 @@ const screenHeight = Constants.SCREEN_HEIGHT;
 const screenWidth = Constants.SCREEN_WIDTH;
 const borderSize = 10;
 const ballRadius = 15;
-const ballDistance = ballRadius * 3;
+const ballDistance = ballRadius * 2.3;
 const marginWidth = 60;
 const marginHeight = 38;
-const tableOffsetX = 22;
 const borderThickness = borderSize + 24;
 const rightHoleOffsetX = 23;
 const leftHoleOffsetX = -29;
@@ -21,36 +19,44 @@ const holeVerticalOffsetTop = 63;
 const holeVerticalOffsetMiddle = 10;
 const holeVerticalOffsetBottom = 90;
 
-export default (world, ballsCount) => {
-  const colors = [
-    "#FF5733", "#33FF57", "#3357FF", "#F1C40F",
-    "#8E44AD", "#E74C3C", "#2ECC71", "#1ABC9C",
-    "#D35400", "#C0392B", "#3498DB", "#9B59B6"
-  ];
+export default (world, level) => {
+//  let ballsCount;
 
-  function getBalls(linesCount) {
-    var result = {};
-
+  function getBalls() {
+    let result = {};
     let centerX = screenWidth / 2;
-    let centerY = screenHeight / 2 - 92;
+    let centerY = screenHeight * 0.3;
 
-    var ballIndex = 0;
-    for (let rowIdx = 1; rowIdx < linesCount + 1; rowIdx++) {
-      for (var colIdx = 0; colIdx < rowIdx; colIdx++) {
-        result[`ball_${rowIdx}_${colIdx}`] = Ball(
+    const ballNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    let ballIndex = 0;
+
+    const pyramid = [
+      [0],
+      [-0.5, 0.5],
+      [-1, 0, 1],
+      [-1.5, -0.5, 0.5, 1.5],
+    ];
+
+    for (let row = 0; row < level; row++) {
+      for (let i = 0; i < pyramid[row].length; i++) {
+//        if (ballIndex >= ballsCount) return result;
+
+        const posX = centerX + pyramid[row][i] * ballDistance;
+        const posY = centerY - row * ballDistance * 0.9;
+
+        result[`ball_${ballNumbers[ballIndex]}`] = Ball(
           world,
-          colors[ballIndex],
-          {
-            x: centerX - ballDistance / 2 + (rowIdx / 2 - colIdx) * ballDistance,
-            y: centerY - ballDistance / 2 - ballDistance * rowIdx,
-          },
+          ballNumbers[ballIndex],
+          { x: posX, y: posY },
           ballRadius,
-          `Ball_${rowIdx}_${colIdx}`,
-          `${ballIndex + 1}`,
+          `Ball_${ballNumbers[ballIndex]}`
         );
-        ballIndex += 1;
+
+        ballIndex++;
       }
     }
+
+    console.log(`Balls placed correctly for ${level}:`, result);
     return result;
   }
 
@@ -81,26 +87,31 @@ export default (world, ballsCount) => {
     return result;
   }
 
+  const cueBall = Ball(
+    world,
+    0,
+    { x: screenWidth / 2, y: screenHeight * 0.75 },
+    ballRadius,
+    "CueBall"
+  );
+
   return {
-    point: Ball(
-      world,
-      "white",
-      { x: screenWidth / 2, y: screenHeight / 2 + 200 },
-      ballRadius,
-      "Ball",
-      "",
-      false,
-    ),
+    cueBall,
+
+    point: {
+      body: cueBall.body,
+      renderer: cueBall.renderer,
+    },
 
     pointer: Pointer(),
 
-    ...getBalls(ballsCount),
+    ...getBalls(),
     ...getHoles(),
 
     bottomBoundary: Boundary(
       world,
       Constants.BOUNDARY_COLOR,
-      { x: screenWidth / 2 - 100, y: screenHeight - 90},
+      { x: screenWidth / 2 - 100, y: screenHeight - 90 },
       { height: borderThickness + 12, width: screenWidth + 200 },
       Constants.BOUNDARY_LABEL
     ),

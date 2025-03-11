@@ -1,10 +1,23 @@
-import { View, Text } from "react-native";
+import React from "react";
+import { View, Image } from "react-native";
 import Matter from "matter-js";
-import React, { useState } from "react";
+
+const ballImages = {
+  1: require("../assets/ball_1.png"),
+  2: require("../assets/ball_2.png"),
+  3: require("../assets/ball_3.png"),
+  4: require("../assets/ball_4.png"),
+  5: require("../assets/ball_5.png"),
+  6: require("../assets/ball_6.png"),
+  7: require("../assets/ball_7.png"),
+  8: require("../assets/ball_8.png"),
+  9: require("../assets/ball_9.png"),
+  10: require("../assets/ball_10.png"),
+  cue: require("../assets/cue_ball.png"),
+};
 
 export const BallRenderer = (props) => {
   const radius = props.radius * 2;
-
   const xPos = props.body.position.x - radius / 2;
   const yPos = props.body.position.y - radius / 2;
 
@@ -15,19 +28,22 @@ export const BallRenderer = (props) => {
         height: radius,
         left: xPos,
         top: yPos,
-        borderRadius: radius,
-        backgroundColor: props.color,
         position: "absolute",
       }}
     >
-      <Text style={{
-        textAlign: 'center'
-      }}>{props.renderLabel}</Text>
+      <Image
+        source={props.number === 0 ? ballImages.cue : ballImages[props.number]}
+        style={{
+          width: radius,
+          height: radius,
+          borderRadius: radius / 2,
+        }}
+      />
     </View>
   );
 };
 
-export default (world, color, pos, radius, label, renderLabel) => {
+export default (world, number, pos, radius, label) => {
   const ball = Matter.Bodies.circle(pos.x, pos.y, radius, {
     label: label,
     frictionAir: 0.01,
@@ -35,13 +51,14 @@ export default (world, color, pos, radius, label, renderLabel) => {
     inertia: Infinity,
     restitution: 1,
   });
+
   Matter.World.add(world, [ball]);
+
   return {
     body: ball,
-    color: color,
+    number: number,
     pos: pos,
     radius: radius,
-    renderLabel: renderLabel,
     renderer: <BallRenderer />,
   };
 };
