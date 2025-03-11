@@ -47,7 +47,8 @@ export default (world, number, pos, radius, label) => {
   const ball = Matter.Bodies.circle(pos.x, pos.y, radius, {
     label: label,
     frictionAir: 0.01,
-    friction: 0.01,
+    friction: 0.001,
+    frictionStatic: 0,
     inertia: Infinity,
     restitution: 1,
   });

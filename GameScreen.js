@@ -1,13 +1,19 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { View, StyleSheet, Text, ImageBackground, Dimensions, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  ImageBackground,
+  TouchableOpacity,
+} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { GameEngine } from "react-native-game-engine";
 import entities from "./entities/index";
 import Physics from "./systems/Physics";
 import Matter from "matter-js";
 import Constants from "./Constants";
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 export default function GameScreen() {
   const navigation = useNavigation();
@@ -26,14 +32,16 @@ export default function GameScreen() {
 
   const [currentPoints, setCurrentPoints] = useState(0);
   const [running, setRunning] = useState(true);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     if (currentPoints >= pointsToWin) {
       setRunning(false);
+      setMessage("You won!");
     }
 
     return () => {
-        Matter.Engine.clear(engine);
+      Matter.Engine.clear(engine);
     };
   }, [currentPoints]);
 
@@ -41,14 +49,15 @@ export default function GameScreen() {
     switch (e.type) {
       case "new_point":
         console.log("new_point dispatch called");
-        setCurrentPoints(prevPoints => prevPoints + 1);  // Increment points
+        setCurrentPoints((prevPoints) => prevPoints + 1); // Increment points
         break;
       case "game_over":
         console.log("new_point dispatch called");
         setRunning(false);
+        setMessage("You lose...");
         break;
       default:
-        console.log('unhandled game engine event', e.type);
+        console.log("unhandled game engine event", e.type);
         break;
     }
   }
@@ -75,20 +84,18 @@ export default function GameScreen() {
       </ImageBackground>
       <Text style={styles.scoreText}>Score: {currentPoints}</Text>
       {!running && (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text style={{ fontWeight: 'bold', color: 'white', fontSize: 50, marginBottom: 20 }}>
-      GAME OVER
-    </Text>
-    <TouchableOpacity
-      style={{ backgroundColor: 'black', paddingHorizontal: 30, paddingVertical: 10 }}
-      onPress={() => navigation.navigate('Home')}
-    >
-      <Text style={{ fontWeight: 'bold', color: 'white', fontSize: 30 }}>
-        EXIT
-      </Text>
-    </TouchableOpacity>
-  </View>
-)}
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <Text style={styles.gameStatusText}>{message}</Text>
+          <TouchableOpacity
+            style={styles.exitButton}
+            onPress={() => navigation.navigate("Home")}
+          >
+            <Text style={styles.exitText}>EXIT</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }
@@ -102,7 +109,7 @@ const styles = StyleSheet.create({
     height: Constants.WINDOW_HEIGHT,
     alignSelf: "center",
     position: "absolute",
-    top: -50,
+    top: -20,
     left: 0,
   },
   gameContainer: {
@@ -113,6 +120,18 @@ const styles = StyleSheet.create({
     color: "white",
     top: Constants.WINDOW_HEIGHT - 105,
     left: 20,
-    fontSize: 36
-  }
+    fontSize: 36,
+  },
+  gameStatusText: {
+    fontWeight: "bold",
+    color: "white",
+    fontSize: 50,
+    marginBottom: 20,
+  },
+  exitButton: {
+    backgroundColor: "black",
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+  },
+  exitText: { fontWeight: "bold", color: "white", fontSize: 30 },
 });

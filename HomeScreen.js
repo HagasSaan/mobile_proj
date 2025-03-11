@@ -1,33 +1,56 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ImageBackground } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ImageBackground,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
 
   const levelSettings = [
-    {linesCount: 1, buttonText: "Easy Level", buttonStyle: styles.button, textStyle: styles.buttonText},
-    {linesCount: 2, buttonText: "Medium Level", buttonStyle: styles.button, textStyle: styles.buttonText},
-    {linesCount: 3, buttonText: "Hard Level", buttonStyle: styles.button, textStyle: styles.buttonText},
-    {linesCount: 4, buttonText: "🔥 Extra Hard Level 🔥", buttonStyle: styles.buttonHard, textStyle: styles.buttonTextHard},
+    { linesCount: 1, buttonText: "Easy Level" },
+    { linesCount: 2, buttonText: "Medium Level" },
+    { linesCount: 3, buttonText: "Hard Level" },
+    {
+      linesCount: 4,
+      buttonText: "🔥 Extra Hard Level 🔥",
+      buttonStyle: styles.buttonHard,
+      textStyle: styles.buttonTextHard,
+    },
   ];
 
   return (
-    <ImageBackground source={require("./assets/background2.jpg")} style={styles.background}>
+    <ImageBackground
+      source={require("./assets/background2.jpg")}
+      style={styles.background}
+    >
       <View style={styles.overlay}>
         <Text style={styles.title}>🎱 Billiard Game 🎱</Text>
 
-        {
-          levelSettings.map((settings) => (
-            <TouchableOpacity
-              key={settings.linesCount}
-              style={settings.buttonStyle}
-              onPress={() => navigation.navigate("Game", { linesCount: settings.linesCount })}
-            >
-              <Text style={settings.textStyle}>{settings.buttonText}</Text>
-            </TouchableOpacity>
-          ))
-        }
+        {levelSettings.map((settings) => (
+          <TouchableOpacity
+            key={settings.linesCount}
+            style={settings.buttonStyle || styles.button}
+            onPress={() =>
+              navigation.navigate("Game", { linesCount: settings.linesCount })
+            }
+          >
+            <Text style={settings.textStyle || styles.buttonText}>
+              {settings.buttonText}
+            </Text>
+          </TouchableOpacity>
+        ))}
+
+        <TouchableOpacity
+          style={{ ...styles.button, backgroundColor: "green" }}
+          onPress={() => navigation.navigate("Instructions")}
+        >
+          <Text style={styles.buttonText}>Instructions</Text>
+        </TouchableOpacity>
       </View>
     </ImageBackground>
   );
@@ -48,7 +71,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   title: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: "bold",
     color: "#fff",
     marginBottom: 30,
@@ -87,6 +110,13 @@ const styles = StyleSheet.create({
   buttonTextHard: {
     color: "#fff",
     fontSize: 18,
+    fontWeight: "bold",
+  },
+
+  creatorsText: {
+    color: "#fff",
+    fontSize: 14,
+    textAlign: "center",
     fontWeight: "bold",
   },
 });

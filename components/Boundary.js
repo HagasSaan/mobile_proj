@@ -1,6 +1,6 @@
 import Matter from "matter-js";
 import React from "react";
-import { Dimensions, View } from "react-native";
+import { View } from "react-native";
 
 const BoundaryRenderer = (props) => {
   const width = props.size.width;
@@ -31,6 +31,9 @@ export default (world, color, pos, size, label) => {
     {
       label: label,
       isStatic: true,
+      friction: 0,
+      frictionAir: 0,
+      frictionStatic: 0,
       inertia: Infinity,
       restitution: 1,
     },

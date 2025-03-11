@@ -3,11 +3,11 @@ import { Line, Svg } from "react-native-svg";
 function PointerRenderer(props) {
   const start = props.start;
   const end = props.end;
-  const pointPosition = props.pointPosition || { x: 0, y: 0 };
-
   if (!start || !end) {
     return null;
   }
+
+  const pointPosition = props.pointPosition || { x: 0, y: 0 };
 
   return (
     <Svg>
@@ -25,9 +25,6 @@ function PointerRenderer(props) {
 
 export default () => {
   return {
-    start: { x: 0, y: 0 },
-    end: { x: 0, y: 0 },
-    pointPosition: { x: 0, y: 0 },
     renderer: <PointerRenderer />,
   };
 };

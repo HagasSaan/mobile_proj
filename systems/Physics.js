@@ -97,4 +97,4 @@ export default function Physics(entities, { touches, time, dispatch }) {
   }
 
   return entities;
-};
+}

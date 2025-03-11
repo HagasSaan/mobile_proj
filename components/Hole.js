@@ -18,8 +18,7 @@ export const HoleRendeder = (props) => {
         backgroundColor: props.color,
         position: "absolute",
       }}
-    >
-    </View>
+    ></View>
   );
 };
 

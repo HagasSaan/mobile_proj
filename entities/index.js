@@ -26,16 +26,10 @@ export default (world, level) => {
     let centerY = screenHeight * 0.3;
 
     let ballIndex = 0;
-    const pyramid = [
-      [0],
-      [-0.5, 0.5],
-      [-1, 0, 1],
-      [-1.5, -0.5, 0.5, 1.5],
-    ];
+    const pyramid = [[0], [-0.5, 0.5], [-1, 0, 1], [-1.5, -0.5, 0.5, 1.5]];
 
     for (let row = 0; row < level; row++) {
       for (let i = 0; i < pyramid[row].length; i++) {
-
         const posX = centerX + pyramid[row][i] * ballDistance;
         const posY = centerY - row * ballDistance * 0.9;
 
@@ -44,7 +38,7 @@ export default (world, level) => {
           ballIndex + 1,
           { x: posX, y: posY },
           ballRadius,
-          `Ball_${ballIndex + 1}`
+          `Ball_${ballIndex + 1}`,
         );
 
         ballIndex++;
@@ -59,12 +53,36 @@ export default (world, level) => {
     let holeRadius = ballRadius * 1.45;
 
     let holesCoordinates = [
-      { label: "leftTopHole", x: marginWidth + leftHoleOffsetX, y: marginHeight - holeOffsetY + holeVerticalOffsetTop },
-      { label: "rightTopHole", x: screenWidth - marginWidth + rightHoleOffsetX, y: marginHeight - holeOffsetY + holeVerticalOffsetTop },
-      { label: "leftMiddleHole", x: marginWidth + leftHoleOffsetX, y: screenHeight / 2 - holeVerticalOffsetMiddle },
-      { label: "rightMiddleHole", x: screenWidth - marginWidth + rightHoleOffsetX, y: screenHeight / 2 - holeVerticalOffsetMiddle },
-      { label: "leftBottomHole", x: marginWidth + leftHoleOffsetX, y: screenHeight - marginHeight + holeOffsetY - holeVerticalOffsetBottom },
-      { label: "rightBottomHole", x: screenWidth - marginWidth + rightHoleOffsetX, y: screenHeight - marginHeight + holeOffsetY - holeVerticalOffsetBottom },
+      {
+        label: "leftTopHole",
+        x: marginWidth + leftHoleOffsetX,
+        y: marginHeight - holeOffsetY + holeVerticalOffsetTop,
+      },
+      {
+        label: "rightTopHole",
+        x: screenWidth - marginWidth + rightHoleOffsetX,
+        y: marginHeight - holeOffsetY + holeVerticalOffsetTop,
+      },
+      {
+        label: "leftMiddleHole",
+        x: marginWidth + leftHoleOffsetX,
+        y: screenHeight / 2 - holeVerticalOffsetMiddle,
+      },
+      {
+        label: "rightMiddleHole",
+        x: screenWidth - marginWidth + rightHoleOffsetX,
+        y: screenHeight / 2 - holeVerticalOffsetMiddle,
+      },
+      {
+        label: "leftBottomHole",
+        x: marginWidth + leftHoleOffsetX,
+        y: screenHeight - marginHeight + holeOffsetY - holeVerticalOffsetBottom,
+      },
+      {
+        label: "rightBottomHole",
+        x: screenWidth - marginWidth + rightHoleOffsetX,
+        y: screenHeight - marginHeight + holeOffsetY - holeVerticalOffsetBottom,
+      },
     ];
 
     var result = {};
@@ -75,7 +93,7 @@ export default (world, level) => {
         { x: coord.x, y: coord.y },
         holeRadius,
         "Hole",
-        true
+        true,
       );
     }
     return result;
@@ -87,7 +105,7 @@ export default (world, level) => {
       0,
       { x: screenWidth / 2, y: screenHeight * 0.75 },
       ballRadius,
-      "CueBall"
+      "CueBall",
     ),
 
     pointer: Pointer(),
@@ -100,7 +118,7 @@ export default (world, level) => {
       Constants.BOUNDARY_COLOR,
       { x: screenWidth / 2 - 100, y: screenHeight - 90 },
       { height: borderThickness + 12, width: screenWidth + 200 },
-      Constants.BOUNDARY_LABEL
+      Constants.BOUNDARY_LABEL,
     ),
 
     topBoundary: Boundary(
@@ -108,7 +126,7 @@ export default (world, level) => {
       Constants.BOUNDARY_COLOR,
       { x: screenWidth / 2 - 100, y: 67 },
       { height: borderThickness + 12, width: screenWidth + 200 },
-      Constants.BOUNDARY_LABEL
+      Constants.BOUNDARY_LABEL,
     ),
 
     leftBoundary: Boundary(
@@ -116,7 +134,7 @@ export default (world, level) => {
       Constants.BOUNDARY_COLOR,
       { x: marginWidth / 2 - 15, y: screenHeight / 2 },
       { height: screenHeight - marginHeight * 1.02, width: borderSize + 26 },
-      Constants.BOUNDARY_LABEL
+      Constants.BOUNDARY_LABEL,
     ),
 
     rightBoundary: Boundary(
@@ -124,7 +142,7 @@ export default (world, level) => {
       Constants.BOUNDARY_COLOR,
       { x: screenWidth - marginWidth / 2 + 15, y: screenHeight / 2 },
       { height: screenHeight - marginHeight * 1.02, width: borderSize + 26 },
-      Constants.BOUNDARY_LABEL
+      Constants.BOUNDARY_LABEL,
     ),
   };
 };
