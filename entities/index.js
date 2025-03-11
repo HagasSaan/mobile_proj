@@ -20,16 +20,12 @@ const holeVerticalOffsetMiddle = 10;
 const holeVerticalOffsetBottom = 90;
 
 export default (world, level) => {
-//  let ballsCount;
-
   function getBalls() {
     let result = {};
     let centerX = screenWidth / 2;
     let centerY = screenHeight * 0.3;
 
-    const ballNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     let ballIndex = 0;
-
     const pyramid = [
       [0],
       [-0.5, 0.5],
@@ -39,24 +35,22 @@ export default (world, level) => {
 
     for (let row = 0; row < level; row++) {
       for (let i = 0; i < pyramid[row].length; i++) {
-//        if (ballIndex >= ballsCount) return result;
 
         const posX = centerX + pyramid[row][i] * ballDistance;
         const posY = centerY - row * ballDistance * 0.9;
 
-        result[`ball_${ballNumbers[ballIndex]}`] = Ball(
+        result[`ball_${ballIndex + 1}`] = Ball(
           world,
-          ballNumbers[ballIndex],
+          ballIndex + 1,
           { x: posX, y: posY },
           ballRadius,
-          `Ball_${ballNumbers[ballIndex]}`
+          `Ball_${ballIndex + 1}`
         );
 
         ballIndex++;
       }
     }
 
-    console.log(`Balls placed correctly for ${level}:`, result);
     return result;
   }
 

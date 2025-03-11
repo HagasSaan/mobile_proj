@@ -12,16 +12,24 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 export default function GameScreen() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { ballsCount } = route.params;
   const engine = Matter.Engine.create({ enableSleeping: false });
   const world = engine.world;
 
+  const { linesCount } = route.params;
+  function factorial(n) {
+    if (n === 1) {
+      return 1;
+    }
+    return n * factorial(n - 1);
+  }
+  const pointsToWin = factorial(linesCount);
+
   const [currentPoints, setCurrentPoints] = useState(0);
-  const [running, setRunning] = useState(false);
+  const [running, setRunning] = useState(true);
 
   useEffect(() => {
-    if (currentPoints === 1) {
-      setRunning(true);
+    if (currentPoints >= pointsToWin) {
+      setRunning(false);
     }
 
     return () => {
@@ -37,7 +45,7 @@ export default function GameScreen() {
         break;
       case "game_over":
         console.log("new_point dispatch called");
-        setRunning(true);
+        setRunning(false);
         break;
       default:
         console.log('unhandled game engine event', e.type);
@@ -57,7 +65,7 @@ export default function GameScreen() {
           entities={{
             engine: engine,
             world: world,
-            ...entities(world, ballsCount),
+            ...entities(world, linesCount),
           }}
           onEvent={handleGameEngineEvents}
           style={styles.gameContainer}
@@ -66,14 +74,14 @@ export default function GameScreen() {
         </GameEngine>
       </ImageBackground>
       <Text style={styles.scoreText}>Score: {currentPoints}</Text>
-      {running && (
+      {!running && (
   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
     <Text style={{ fontWeight: 'bold', color: 'white', fontSize: 50, marginBottom: 20 }}>
       GAME OVER
     </Text>
     <TouchableOpacity
       style={{ backgroundColor: 'black', paddingHorizontal: 30, paddingVertical: 10 }}
-      onPress={() => navigation.navigate('Home')} 
+      onPress={() => navigation.navigate('Home')}
     >
       <Text style={{ fontWeight: 'bold', color: 'white', fontSize: 30 }}>
         EXIT

@@ -5,38 +5,29 @@ import { useNavigation } from "@react-navigation/native";
 export default function HomeScreen() {
   const navigation = useNavigation();
 
+  const levelSettings = [
+    {linesCount: 1, buttonText: "Easy Level", buttonStyle: styles.button, textStyle: styles.buttonText},
+    {linesCount: 2, buttonText: "Medium Level", buttonStyle: styles.button, textStyle: styles.buttonText},
+    {linesCount: 3, buttonText: "Hard Level", buttonStyle: styles.button, textStyle: styles.buttonText},
+    {linesCount: 4, buttonText: "🔥 Extra Hard Level 🔥", buttonStyle: styles.buttonHard, textStyle: styles.buttonTextHard},
+  ];
+
   return (
     <ImageBackground source={require("./assets/background2.jpg")} style={styles.background}>
       <View style={styles.overlay}>
         <Text style={styles.title}>🎱 Billiard Game 🎱</Text>
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("Game", { ballsCount: 1 })}
-        >
-          <Text style={styles.buttonText}>Easy Level</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("Game2", { ballsCount: 2 })}
-        >
-          <Text style={styles.buttonText}>Medium Level</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("Game3", { ballsCount: 3 })}
-        >
-          <Text style={styles.buttonText}>Extra Medium</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.buttonHard}
-          onPress={() => navigation.navigate("Game4", { ballsCount: 4 })}
-        >
-          <Text style={styles.buttonTextHard}>🔥 Hard Level 🔥</Text>
-        </TouchableOpacity>
+        {
+          levelSettings.map((settings) => (
+            <TouchableOpacity
+              key={settings.linesCount}
+              style={settings.buttonStyle}
+              onPress={() => navigation.navigate("Game", { linesCount: settings.linesCount })}
+            >
+              <Text style={settings.textStyle}>{settings.buttonText}</Text>
+            </TouchableOpacity>
+          ))
+        }
       </View>
     </ImageBackground>
   );
