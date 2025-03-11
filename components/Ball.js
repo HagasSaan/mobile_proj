@@ -3,6 +3,7 @@ import { View, Image } from "react-native";
 import Matter from "matter-js";
 
 const ballImages = {
+  0: require("../assets/cue_ball.png"),
   1: require("../assets/ball_1.png"),
   2: require("../assets/ball_2.png"),
   3: require("../assets/ball_3.png"),
@@ -13,7 +14,6 @@ const ballImages = {
   8: require("../assets/ball_8.png"),
   9: require("../assets/ball_9.png"),
   10: require("../assets/ball_10.png"),
-  cue: require("../assets/cue_ball.png"),
 };
 
 export const BallRenderer = (props) => {
@@ -32,7 +32,7 @@ export const BallRenderer = (props) => {
       }}
     >
       <Image
-        source={props.number === 0 ? ballImages.cue : ballImages[props.number]}
+        source={ballImages[props.number]}
         style={{
           width: radius,
           height: radius,

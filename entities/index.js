@@ -13,7 +13,7 @@ const ballDistance = ballRadius * 2.3;
 const marginWidth = 60;
 const marginHeight = 38;
 const borderThickness = borderSize + 24;
-const rightHoleOffsetX = 23;
+const rightHoleOffsetX = 30;
 const leftHoleOffsetX = -29;
 const holeVerticalOffsetTop = 63;
 const holeVerticalOffsetMiddle = 10;
@@ -81,21 +81,14 @@ export default (world, level) => {
     return result;
   }
 
-  const cueBall = Ball(
-    world,
-    0,
-    { x: screenWidth / 2, y: screenHeight * 0.75 },
-    ballRadius,
-    "CueBall"
-  );
-
   return {
-    cueBall,
-
-    point: {
-      body: cueBall.body,
-      renderer: cueBall.renderer,
-    },
+    point: Ball(
+      world,
+      0,
+      { x: screenWidth / 2, y: screenHeight * 0.75 },
+      ballRadius,
+      "CueBall"
+    ),
 
     pointer: Pointer(),
 

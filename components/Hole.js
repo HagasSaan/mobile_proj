@@ -1,6 +1,27 @@
 import Matter from "matter-js";
-import React, { useState } from "react";
-import { BallRenderer } from "./Ball";
+import { View, Image } from "react-native";
+import React from "react";
+
+export const HoleRendeder = (props) => {
+  const radius = props.radius * 2;
+  const xPos = props.body.position.x - radius / 2;
+  const yPos = props.body.position.y - radius / 2;
+
+  return (
+    <View
+      style={{
+        width: radius,
+        height: radius,
+        left: xPos,
+        top: yPos,
+        borderRadius: radius,
+        backgroundColor: props.color,
+        position: "absolute",
+      }}
+    >
+    </View>
+  );
+};
 
 export default (world, color, pos, radius, label) => {
   const hole = Matter.Bodies.circle(pos.x, pos.y, radius, {
@@ -17,6 +38,6 @@ export default (world, color, pos, radius, label) => {
     color: color,
     pos: pos,
     radius: radius,
-    renderer: <BallRenderer />,
+    renderer: <HoleRendeder />,
   };
 };
