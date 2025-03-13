@@ -12,11 +12,11 @@ export default function HomeScreen() {
   const navigation = useNavigation();
 
   const levelSettings = [
-    { linesCount: 1, buttonText: "Easy Level" },
-    { linesCount: 2, buttonText: "Medium Level" },
-    { linesCount: 3, buttonText: "Hard Level" },
+    { linesCount: 1, holesSize: 4, buttonText: "Easy Level" },
+    { linesCount: 2, holesSize: 3, buttonText: "Medium Level" },
+    { linesCount: 3, holesSize: 2, buttonText: "Hard Level" },
     {
-      linesCount: 4,
+      linesCount: 4, holesSize: 1,
       buttonText: "🔥 Extra Hard Level 🔥",
       buttonStyle: styles.buttonHard,
       textStyle: styles.buttonTextHard,
@@ -36,7 +36,13 @@ export default function HomeScreen() {
             key={settings.linesCount}
             style={settings.buttonStyle || styles.button}
             onPress={() =>
-              navigation.navigate("Game", { linesCount: settings.linesCount })
+              navigation.navigate(
+                "Game",
+                {
+                  linesCount: settings.linesCount,
+                  holesSize: settings.holesSize
+                }
+              )
             }
           >
             <Text style={settings.textStyle || styles.buttonText}>

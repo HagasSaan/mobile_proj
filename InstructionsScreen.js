@@ -29,7 +29,7 @@ const levelInstructions = {
   extra_hard: {
     title: "💀 Extra Hard Level",
     description:
-      "- For professionals only! 🏆\n- Maximum balls on the table.\n- Tiny pockets, high accuracy needed.\n- Limited time for shots—quick thinking required!",
+      "- For professionals only! 🏆\n- Maximum balls on the table.\n- Tiny pockets, high accuracy needed.\n",
   },
 };
 
@@ -39,7 +39,7 @@ export default function InstructionScreen() {
 
   return (
     <ImageBackground
-      source={require("./assets/artem.png")}
+      source={require("./assets/background2.jpg")}
       style={styles.background}
     >
       <View style={styles.overlay}>

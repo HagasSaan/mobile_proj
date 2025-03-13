@@ -21,38 +21,43 @@ export default function GameScreen() {
   const engine = Matter.Engine.create({ enableSleeping: false });
   const world = engine.world;
 
-  const { linesCount } = route.params;
-  function factorial(n) {
+  const { linesCount, holesSize } = route.params;
+  function arithmeticProgression(n) {
     if (n === 1) {
       return 1;
     }
-    return n * factorial(n - 1);
+    return n + arithmeticProgression(n - 1);
   }
-  const pointsToWin = factorial(linesCount);
+  const pointsToWin = arithmeticProgression(linesCount);
 
   const [currentPoints, setCurrentPoints] = useState(0);
+  const [currentTurns, setCurrentTurns] = useState(0);
   const [running, setRunning] = useState(true);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    if (currentPoints >= pointsToWin) {
-      setRunning(false);
-      setMessage("You won!");
-    }
-
     return () => {
       Matter.Engine.clear(engine);
     };
-  }, [currentPoints]);
+  }, []);
 
   function handleGameEngineEvents(e) {
     switch (e.type) {
       case "new_point":
         console.log("new_point dispatch called");
         setCurrentPoints((prevPoints) => prevPoints + 1); // Increment points
+        if (currentPoints + 1 >= pointsToWin) {
+          setRunning(false);
+          setMessage("You won!");
+        }
+
+        break;
+      case "new_turn":
+        console.log('new_turn dispatch called');
+        setCurrentTurns((prevTurns) => prevTurns + 1);
         break;
       case "game_over":
-        console.log("new_point dispatch called");
+        console.log("game_over dispatch called");
         setRunning(false);
         setMessage("You lose...");
         break;
@@ -74,7 +79,7 @@ export default function GameScreen() {
           entities={{
             engine: engine,
             world: world,
-            ...entities(world, linesCount),
+            ...entities(world, linesCount, holesSize),
           }}
           onEvent={handleGameEngineEvents}
           style={styles.gameContainer}
@@ -82,7 +87,8 @@ export default function GameScreen() {
           <StatusBar hidden={true} />
         </GameEngine>
       </ImageBackground>
-      <Text style={styles.scoreText}>Score: {currentPoints}</Text>
+      <Text style={styles.scoreText}>Score: {currentPoints} / {pointsToWin}</Text>
+      <Text style={styles.turnsText}>Turns: {currentTurns}</Text>
       {!running && (
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -120,6 +126,13 @@ const styles = StyleSheet.create({
     color: "white",
     top: Constants.WINDOW_HEIGHT - 105,
     left: 20,
+    fontSize: 36,
+  },
+  turnsText: {
+    position: "absolute",
+    color: "white",
+    top: Constants.WINDOW_HEIGHT - 105,
+    right: 40,
     fontSize: 36,
   },
   gameStatusText: {

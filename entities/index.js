@@ -19,7 +19,7 @@ const holeVerticalOffsetTop = 63;
 const holeVerticalOffsetMiddle = 10;
 const holeVerticalOffsetBottom = 90;
 
-export default (world, level) => {
+export default (world, level, holesSizeModifier) => {
   function getBalls() {
     let result = {};
     let centerX = screenWidth / 2;
@@ -50,7 +50,7 @@ export default (world, level) => {
 
   function getHoles() {
     let holeOffsetY = 15;
-    let holeRadius = ballRadius * 1.45;
+    let holeRadius = ballRadius * holesSizeModifier;
 
     let holesCoordinates = [
       {

@@ -13,12 +13,17 @@ export default function Physics(entities, { touches, time, dispatch }) {
   function handlePairCollision(pair) {
     var objA = pair.bodyA;
     var objB = pair.bodyB;
+
+    var deadObj = null;
     if (objA.label === "Hole") {
-      objB.killed = true;
-      Matter.World.remove(world, objB);
+      deadObj = objB;
     } else if (objB.label === "Hole") {
-      objA.killed = true;
-      Matter.World.remove(world, objA);
+      deadObj = objA;
+    }
+
+    if (deadObj) {
+      deadObj.killed = true;
+      Matter.World.remove(world, deadObj);
     }
   }
 
@@ -70,6 +75,7 @@ export default function Physics(entities, { touches, time, dispatch }) {
         entities.pointer.start = null;
         entities.pointer.end = null;
         entities.pointer.pointPosition = null;
+        dispatch({ type: "new_turn" });
         break;
       }
       case "move": {
