@@ -14,6 +14,7 @@ import Physics from "./systems/Physics";
 import Matter from "matter-js";
 import Constants from "./Constants";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import ConfettiCannon from "react-native-confetti-cannon";
 
 export default function GameScreen() {
   const navigation = useNavigation();
@@ -22,12 +23,14 @@ export default function GameScreen() {
   const world = engine.world;
 
   const { linesCount, holesSize } = route.params;
+
   function arithmeticProgression(n) {
     if (n === 1) {
       return 1;
     }
     return n + arithmeticProgression(n - 1);
   }
+
   const pointsToWin = arithmeticProgression(linesCount);
 
   const [currentPoints, setCurrentPoints] = useState(0);
@@ -45,15 +48,17 @@ export default function GameScreen() {
     switch (e.type) {
       case "new_point":
         console.log("new_point dispatch called");
-        setCurrentPoints((prevPoints) => prevPoints + 1); // Increment points
-        if (currentPoints + 1 >= pointsToWin) {
-          setRunning(false);
-          setMessage("You won!");
-        }
-
+        setCurrentPoints((prevPoints) => {
+          const newPoints = prevPoints + 1;
+          if (newPoints >= pointsToWin) {
+            setRunning(false);
+            setMessage("You win!");
+          }
+          return newPoints;
+        });
         break;
       case "new_turn":
-        console.log('new_turn dispatch called');
+        console.log("new_turn dispatch called");
         setCurrentTurns((prevTurns) => prevTurns + 1);
         break;
       case "game_over":
@@ -87,12 +92,46 @@ export default function GameScreen() {
           <StatusBar hidden={true} />
         </GameEngine>
       </ImageBackground>
-      <Text style={styles.scoreText}>Score: {currentPoints} / {pointsToWin}</Text>
+
+      <Text style={styles.scoreText}>
+        Score: {currentPoints} / {pointsToWin}
+      </Text>
       <Text style={styles.turnsText}>Turns: {currentTurns}</Text>
+
       {!running && (
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          {message === "You win!" && (
+            <>
+              <ConfettiCannon
+                count={450}
+                origin={{ x: 0, y: 0 }}
+                fallSpeed={3000}
+                fadeOut
+                colors={[
+                  "#ff0a54",
+                  "#ff477e",
+                  "#ff7096",
+                  "#ff85a1",
+                  "#fbb1bd",
+                  "#f9bec7",
+                ]}
+              />
+              <ConfettiCannon
+                count={150}
+                origin={{ x: Constants.WINDOW_WIDTH, y: 0 }}
+                fallSpeed={3000}
+                fadeOut
+                colors={[
+                  "#00f5d4",
+                  "#00bbf9",
+                  "#3c096c",
+                  "#f72585",
+                  "#4895ef",
+                  "#560bad",
+                ]}
+              />
+            </>
+          )}
           <Text style={styles.gameStatusText}>{message}</Text>
           <TouchableOpacity
             style={styles.exitButton}
@@ -146,5 +185,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     paddingVertical: 10,
   },
-  exitText: { fontWeight: "bold", color: "white", fontSize: 30 },
+  exitText: {
+    fontWeight: "bold",
+    color: "white",
+    fontSize: 30,
+  },
 });
