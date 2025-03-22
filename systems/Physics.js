@@ -44,12 +44,12 @@ export default function Physics(entities, { touches, time, dispatch }) {
   }
 
   if (!entities.pointer) {
-    console.warn("Warning: Pointer entity is missing!");
+//    console.warn("Warning: Pointer entity is missing!");
     return entities;
   }
 
   if (!entities.point || !entities.point.body) {
-    console.warn("Warning: Cue ball entity (point) is missing!");
+//    console.warn("Warning: Cue ball entity (point) is missing!");
     return entities;
   }
 

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   View,
   StyleSheet,
@@ -37,8 +37,14 @@ export default function GameScreen() {
   const [currentTurns, setCurrentTurns] = useState(0);
   const [running, setRunning] = useState(true);
   const [message, setMessage] = useState("");
+  const gameEngine = useRef(null);
 
   useEffect(() => {
+    gameEngine.current.swap({
+      engine: engine,
+      world: world,
+      ...entities(world, linesCount, holesSize),
+    });
     return () => {
       Matter.Engine.clear(engine);
     };
@@ -80,12 +86,8 @@ export default function GameScreen() {
         resizeMode="cover"
       >
         <GameEngine
+          ref={gameEngine}
           systems={[Physics]}
-          entities={{
-            engine: engine,
-            world: world,
-            ...entities(world, linesCount, holesSize),
-          }}
           onEvent={handleGameEngineEvents}
           style={styles.gameContainer}
         >

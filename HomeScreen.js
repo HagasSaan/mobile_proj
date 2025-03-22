@@ -12,11 +12,11 @@ export default function HomeScreen() {
   const navigation = useNavigation();
 
   const levelSettings = [
-    { linesCount: 1, holesSize: 4, buttonText: "Easy Level" },
+    { linesCount: 1, holesSize: 3.5, buttonText: "Easy Level" },
     { linesCount: 2, holesSize: 3, buttonText: "Medium Level" },
-    { linesCount: 3, holesSize: 2, buttonText: "Hard Level" },
+    { linesCount: 3, holesSize: 2.5, buttonText: "Hard Level" },
     {
-      linesCount: 4, holesSize: 1,
+      linesCount: 4, holesSize: 1.5,
       buttonText: "🔥 Extra Hard Level 🔥",
       buttonStyle: styles.buttonHard,
       textStyle: styles.buttonTextHard,
